@@ -4,9 +4,11 @@ import com.jiang.entity.ProductInfo;
 import com.jiang.entity.QProductInfo;
 import com.jiang.repository.ProductInfoRepository;
 import com.jiang.service.ProductInfoService;
+import com.jiang.vo.QueryVO;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,13 +29,19 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Autowired
     private ProductInfoRepository productInfoRepository;
     @Override
-    public Page<ProductInfo> listPage(ProductInfo vo, PageRequest pageable) {
+    public Page<ProductInfo> listPage(QueryVO vo, PageRequest pageable) {
         QProductInfo qp = QProductInfo.productInfo;
 
-        QueryResults<ProductInfo> result = jpaQueryFactory.select(Projections.bean(ProductInfo.class, qp.id, qp.name, qp.count, qp.createDate, qp.updateDate))
-                .from(qp)
+        JPAQuery<ProductInfo> query = jpaQueryFactory.selectFrom(qp).from(qp);
+        
+        if (StringUtils.isNotEmpty(vo.getProductName())){
+            query.where(qp.name.stringValue().eq(vo.getProductName()));
+        }
+        QueryResults<ProductInfo> result = query
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize()).fetchResults();
+                .limit(pageable.getPageSize())
+                .orderBy(qp.createDate.desc())
+                .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
     @Transactional
@@ -45,7 +53,13 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Transactional
     @Override
     public Integer updateProductInfo(ProductInfo vo) {
-        productInfoRepository.save(vo);
+        QProductInfo qp = QProductInfo.productInfo;
+        jpaQueryFactory.update(qp)
+                .set(qp.name, vo.getName())
+                .set(qp.updateDate, vo.getUpdateDate())
+                .where(qp.id.longValue().eq(vo.getId()))
+                .execute();
+
         return 1;
     }
     @Transactional

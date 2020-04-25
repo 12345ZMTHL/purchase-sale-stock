@@ -13,9 +13,9 @@ import org.springframework.data.domain.PageRequest;
 public interface FormBodyService {
     Page<FormBody> queryPage(Long headId, PageRequest pageable);
 
-    Integer addFormBody(FormBody vo,Boolean flag);
+    Integer addFormBody(FormBody vo,Integer flag);
 
-    Integer updateFormBody(FormBody vo, Boolean flag);
+    Integer updateFormBody(FormBody vo);
 
-    Integer deleteFormBodyById(Long id, Boolean flag);
+    Integer deleteFormBodyById(Long id);
 }

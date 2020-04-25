@@ -22,7 +22,7 @@ public class FormHead {
     private Long id;
 
     @Column(name = "flag")
-    private Boolean flag;//决定是出货单还是进货单
+    private Integer flag;//决定是出货单还是进货单,1：进货
 
     @Column(name = "create_date")
     private Date createDate;

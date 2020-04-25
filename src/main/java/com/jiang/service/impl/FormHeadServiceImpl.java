@@ -9,6 +9,7 @@ import com.jiang.repository.FormBodyRepository;
 import com.jiang.repository.FormHeadRepository;
 import com.jiang.repository.ProductInfoRepository;
 import com.jiang.service.FormHeadService;
+import com.jiang.vo.QueryVO;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -42,7 +43,7 @@ public class FormHeadServiceImpl implements FormHeadService {
     private ProductInfoRepository productInfoRepository;
 
     @Override
-    public Page<FormHead> queryPage(FormHead vo, PageRequest pageable) {
+    public Page<FormHead> queryPage(QueryVO vo, PageRequest pageable) {
         QFormHead qfh = QFormHead.formHead;
 
         JPAQuery<FormHead> query = jpaQueryFactory.select(
@@ -66,6 +67,8 @@ public class FormHeadServiceImpl implements FormHeadService {
     @Override
     public Integer updateFormHead(FormHead vo) {
         QFormBody qfb = QFormBody.formBody;
+        QFormHead qfh = QFormHead.formHead;
+
         FormHead old = formHeadRepository.findById(vo.getId()).get();
         if(vo.getFlag() != old.getFlag()){
             QueryResults<ProductInfoCountDTO> results = jpaQueryFactory.select(
@@ -74,12 +77,16 @@ public class FormHeadServiceImpl implements FormHeadService {
                     .from(qfb)
                     .where(qfb.headId.longValue().eq(vo.getId()))
                     .fetchResults();
-
             for (ProductInfoCountDTO dto:results.getResults()){
-                productInfoRepository.updateCount(dto.getProductId(),(-dto.getCount())*2);
+                Long count = vo.getFlag() == 1?2*dto.getCount():(-dto.getCount())*2;
+                productInfoRepository.updateCount(dto.getProductId(),count);
             }
         }
-        formHeadRepository.save(vo);
+        jpaQueryFactory.update(qfh)
+                .set(qfh.flag,vo.getFlag())
+                .set(qfh.updateDate,vo.getUpdateDate())
+                .where(qfh.id.longValue().eq(vo.getId()))
+                .execute();
         return 1;
     }
 

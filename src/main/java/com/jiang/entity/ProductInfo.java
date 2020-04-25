@@ -1,6 +1,5 @@
 package com.jiang.entity;
 
-import lombok.CustomLog;
 import lombok.Data;
 
 import javax.persistence.*;
