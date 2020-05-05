@@ -38,8 +38,6 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             query.where(qp.name.stringValue().eq(vo.getProductName()));
         }
         QueryResults<ProductInfo> result = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .orderBy(qp.createDate.desc())
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());

@@ -52,8 +52,7 @@ public class FormHeadServiceImpl implements FormHeadService {
         if (null != vo.getFlag()){
             query.where(qfh.flag.eq(vo.getFlag()));
         }
-        QueryResults<FormHead> result = query.offset(pageable.getOffset())
-                .limit(pageable.getPageSize()).fetchResults();
+        QueryResults<FormHead> result = query.fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 

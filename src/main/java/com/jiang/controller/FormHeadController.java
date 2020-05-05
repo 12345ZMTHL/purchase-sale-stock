@@ -27,12 +27,12 @@ public class FormHeadController {
     private FormHeadService formHeadService;
 
     @ApiOperation(value = "查询表单头信息")
-    @GetMapping("/queryPage")
-    public Page<FormHead> queryPage(@RequestBody QueryVO vo,
+    @GetMapping("/pageQuery")
+    public Page<FormHead> queryPage(/**@RequestBody QueryVO vo,*/
                                        @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                        @RequestParam(value = "pageSize", defaultValue = "30") Integer pageSize){
         PageRequest pageable = PageRequest.of(pageNo, pageSize);
-        Page<FormHead> result = formHeadService.queryPage(vo, pageable);
+        Page<FormHead> result = formHeadService.queryPage(new QueryVO(), pageable);
         return result;
     }
 

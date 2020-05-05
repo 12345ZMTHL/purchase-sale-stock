@@ -11,14 +11,14 @@ package com.jiang.config;
 public class BaseResult<T> {
     private Integer code;
     private String message;
-    private T data;
+    private T result;
     private static final Integer SUCCESS_CODE = 0;
     private static final Integer FAIL_CODE = 1;
 
     public BaseResult(Integer errCode, String message, T data) {
         this.code = errCode;
         this.message = message;
-        this.data = data;
+        this.result = data;
     }
 
     public static BaseResult<Object> success() {
@@ -62,7 +62,7 @@ public class BaseResult<T> {
     }
 
     public T getData() {
-        return this.data;
+        return this.result;
     }
 
     public void setErrCode(Integer code) {
@@ -74,6 +74,6 @@ public class BaseResult<T> {
     }
 
     public void setData(T data) {
-        this.data = data;
+        this.result = data;
     }
 }

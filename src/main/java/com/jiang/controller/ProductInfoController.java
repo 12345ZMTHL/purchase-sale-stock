@@ -27,11 +27,11 @@ public class ProductInfoController {
 
     @ApiOperation(value = "查询")
     @GetMapping("/pageQuery")
-    public Page<ProductInfo> pageQuery(@RequestBody QueryVO vo,
+    public Page<ProductInfo> pageQuery(/**@RequestBody QueryVO vo,*/
                                        @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                        @RequestParam(value = "pageSize", defaultValue = "30") Integer pageSize){
         PageRequest pageable = PageRequest.of(pageNo - 1, pageSize);
-        Page<ProductInfo> orderInfoDTOPage = productInfoService.listPage(vo, pageable);
+        Page<ProductInfo> orderInfoDTOPage = productInfoService.listPage(new QueryVO(), pageable);
         return orderInfoDTOPage;
     }
 

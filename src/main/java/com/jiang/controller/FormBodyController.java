@@ -25,7 +25,7 @@ public class FormBodyController {
     private FormBodyService formBodyService;
 
     @ApiOperation(value = "查询")
-    @GetMapping("queryPage")
+    @GetMapping("pageQuery")
     public Page<FormBody> queryPage(@RequestParam(value = "headId") Long headId,
                                     @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize){

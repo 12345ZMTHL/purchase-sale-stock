@@ -41,9 +41,9 @@ public class FormBodyServiceImpl implements FormBodyService {
                 Projections.bean(
                         FormBody.class,
                         qfb.id, qfb.headId, qfb.productId, qfb.count, qfb.createDate, qfb.updateDate))
+                .from(qfb)
                 .where(qfb.headId.longValue().eq(headId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize()).fetchResults();
+                .fetchResults();
         return new PageImpl<>(result.getResults(),pageable, result.getTotal());
     }
 
