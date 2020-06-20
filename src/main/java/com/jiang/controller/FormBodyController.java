@@ -1,5 +1,6 @@
 package com.jiang.controller;
 
+import com.jiang.config.AnalysisaAnotation;
 import com.jiang.entity.FormBody;
 import com.jiang.service.FormBodyService;
 import io.swagger.annotations.Api;
@@ -26,6 +27,7 @@ public class FormBodyController {
 
     @ApiOperation(value = "查询")
     @GetMapping("pageQuery")
+    @AnalysisaAnotation(flagAnalysis = true,eventId = 12)
     public Page<FormBody> queryPage(@RequestParam(value = "headId") Long headId,
                                     @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize){
