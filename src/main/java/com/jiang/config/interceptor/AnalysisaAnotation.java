@@ -1,4 +1,4 @@
-package com.jiang.config;
+package com.jiang.config.interceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

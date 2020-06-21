@@ -1,6 +1,6 @@
 package com.jiang.controller;
 
-import com.jiang.config.AnalysisaAnotation;
+import com.jiang.config.interceptor.AnalysisaAnotation;
 import com.jiang.entity.FormBody;
 import com.jiang.service.FormBodyService;
 import io.swagger.annotations.Api;
